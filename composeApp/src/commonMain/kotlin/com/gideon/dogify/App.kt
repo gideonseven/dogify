@@ -13,6 +13,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.gideon.dogify.model.Breed
+import com.gideon.dogify.usecase.FetchBreedsUseCase
+import com.gideon.dogify.usecase.GetBreedsUseCase
+import com.gideon.dogify.usecase.ToggleFavouriteStateUseCase
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -22,6 +26,8 @@ import dogify.composeapp.generated.resources.compose_multiplatform
 @Composable
 @Preview
 fun App() {
+
+
     MaterialTheme {
         var showContent by remember { mutableStateOf(false) }
         Column(
@@ -31,17 +37,6 @@ fun App() {
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Button(onClick = { showContent = !showContent }) {
-                Text("Click me!")
-            }
-            AnimatedVisibility(showContent) {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Image(painterResource(Res.drawable.compose_multiplatform), null)
-                }
-            }
         }
     }
 }
