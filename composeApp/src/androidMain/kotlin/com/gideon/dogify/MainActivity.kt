@@ -20,7 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.gideon.dogify.model.Breed
+import com.gideon.dogify.api.model.Breed
 import com.gideon.dogify.usecase.FetchBreedsUseCase
 import com.gideon.dogify.usecase.GetBreedsUseCase
 import com.gideon.dogify.usecase.ToggleFavouriteStateUseCase
