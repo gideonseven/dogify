@@ -7,5 +7,6 @@ import org.koin.core.component.inject
 
 class GetBreedsUseCase : KoinComponent {
     private val breedsRepository: BreedsRepository by inject()
-    suspend fun invoke(): List<Breed> = listOf(Breed("Test get", ""))
+
+    suspend fun invoke(): List<Breed> = breedsRepository.get()
 }
