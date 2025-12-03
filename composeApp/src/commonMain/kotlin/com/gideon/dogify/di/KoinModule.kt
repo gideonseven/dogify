@@ -4,6 +4,7 @@ import com.gideon.dogify.api.BreedsApi
 import com.gideon.dogify.database.createDriver
 import com.gideon.dogify.db.DogifyDatabase
 import com.gideon.dogify.repository.BreedRemoteSource
+import com.gideon.dogify.repository.BreedsLocalSource
 import com.gideon.dogify.repository.BreedsRepository
 import com.gideon.dogify.usecase.FetchBreedsUseCase
 import com.gideon.dogify.usecase.GetBreedsUseCase
@@ -23,8 +24,9 @@ private val apiModule = module {
 }
 
 private val repositoryModule = module {
-    single { BreedsRepository(get()) }
+    single { BreedsRepository(get(), get()) }
     factory { BreedRemoteSource(get(), get()) }
+    factory { BreedsLocalSource(get(), get()) }
 }
 
 private val useCaseModule = module {
