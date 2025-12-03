@@ -2,10 +2,13 @@ package com.gideon.dogify
 
 import android.app.Application
 import com.gideon.dogify.di.initKoin
+import org.koin.android.ext.koin.androidContext
 
 class DogifyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        initKoin()
+        initKoin {
+            androidContext(this@DogifyApplication)
+        }
     }
 }
