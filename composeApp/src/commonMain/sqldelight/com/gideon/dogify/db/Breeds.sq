@@ -1,3 +1,5 @@
+import kotlin.Boolean;
+
 CREATE TABLE breeds(
     name TEXT NOT NULL,
     imageUrl TEXT NOT NULL,
@@ -5,7 +7,7 @@ CREATE TABLE breeds(
 );
 
 insert:
-INSERT INSERT OR REPLACE INTO breeds (name, imageUrl, isFavourite) VALUES (?, ?, ?);
+INSERT OR REPLACE INTO breeds (name, imageUrl, isFavourite) VALUES (?, ?, ?);
 
 update:
 UPDATE breeds SET imageUrl = ?, isFavourite = ? WHERE name = ?;

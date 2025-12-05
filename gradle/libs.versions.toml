@@ -15,6 +15,7 @@ kotlin = "2.2.20"
 koin = "4.1.0"
 ktor = "3.3.1"
 jetbrain = "1.7.3"
+coroutine-core = "1.10.0"
 sqlDelight = "2.1.0"
 
 [libraries]
@@ -43,9 +44,11 @@ ktor-client-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
 jetbrain-kotlinx-serialization = {module = "org.jetbrains.kotlinx:kotlinx-serialization-core",version.ref ="jetbrain"}
+jetbrain-kotlinx-coroutine-core = {module = "org.jetbrains.kotlinx:kotlinx-coroutines-core",version.ref ="coroutine-core"}
 sqldelight-android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlDelight" }
 sqldelight-native-driver = { module = "app.cash.sqldelight:native-driver", version.ref = "sqlDelight" }
 sqldelight-runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sqlDelight" }
+sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
