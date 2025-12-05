@@ -1,6 +1,7 @@
 package com.gideon.dogify
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -20,23 +21,35 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.gideon.dogify.model.Breed
+import com.gideon.dogify.api.model.Breed
 import com.gideon.dogify.usecase.FetchBreedsUseCase
 import com.gideon.dogify.usecase.GetBreedsUseCase
 import com.gideon.dogify.usecase.ToggleFavouriteStateUseCase
+import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
+    // Inject from Koin
+    private val fetchBreedsUseCase: FetchBreedsUseCase by inject()
+    private val getBreedsUseCase: GetBreedsUseCase by inject()
+    private val toggleFavouriteStateUseCase: ToggleFavouriteStateUseCase by inject()
 
-    suspend fun greet() =
-        "${FetchBreedsUseCase().invoke()}\n" +
-                "${GetBreedsUseCase().invoke()}\n" +
-                "${
-                    ToggleFavouriteStateUseCase().invoke(
-                        Breed(
-                            "toggle favourite state test", ""
-                        )
-                    )
-                }"
+    suspend fun greet(): String = try {
+        val fetched = fetchBreedsUseCase.invoke()
+        val gotten = getBreedsUseCase.invoke()
+
+        Log.d("Dogify", "FetchBreedsUseCase returned ${fetched.size} breeds")
+        Log.d("Dogify", "Breeds (fetch): ${fetched.joinToString { it.name }}")
+        Log.d("Dogify", "GetBreedsUseCase returned ${gotten.size} breeds")
+        Log.d("Dogify", "Breeds (get): ${gotten.joinToString { it.name }}")
+
+        // Just a smoke test for toggle use case
+        toggleFavouriteStateUseCase.invoke(Breed("toggle favourite state test", ""))
+
+        "Loaded ${fetched.size} breeds from dog.ceo.\nCheck Logcat for details."
+    } catch (e: Exception) {
+        Log.e("Dogify", "Error calling dog.ceo API", e)
+        "Error: ${e.message ?: "unknown error"}"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
