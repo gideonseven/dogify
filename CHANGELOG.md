@@ -1,3 +1,7 @@
+05/12/2025
+- add kotlin coroutines
+- add db connection and fix bug on serialization plugin 
+
 03/12/2025
 - add sqlDelight dependency
 
