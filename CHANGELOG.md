@@ -1,3 +1,6 @@
+06/12/2025
+- setup dependencies for android
+
 05/12/2025
 - add kotlin coroutines
 - add db connection and fix bug on serialization plugin 

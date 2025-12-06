@@ -5,8 +5,8 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    alias(libs.plugins.sqldelight)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.sqldelight)
 }
 
 kotlin {
@@ -33,10 +33,14 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.androidx.core.ktx)
+            implementation(libs.androidx.appcompat)
+            implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.koin.android)
             implementation(libs.koin.compose)
             implementation(libs.ktor.client.android)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.sqldelight.android.driver)
             implementation(libs.sqldelight.android.driver)
         }
         iosMain.dependencies {
@@ -60,8 +64,8 @@ kotlin {
             implementation(libs.ktor.client.serialization)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.client.serialization.json)
-            implementation(libs.jetbrain.kotlinx.serialization)
-            implementation(libs.jetbrain.kotlinx.coroutine.core)
+            implementation(libs.kotlinx.serialization.core)
+            implementation(libs.kotlinx.coroutine.core)
             implementation(libs.sqldelight.runtime)
             implementation(libs.sqldelight.coroutines)
         }
@@ -102,7 +106,7 @@ android {
 sqldelight {
     databases {
         create("DogifyDatabase") {
-            packageName.set("com.gideon.dogify.db")
+            packageName = "com.gideon.dogify.db"
         }
     }
 }
