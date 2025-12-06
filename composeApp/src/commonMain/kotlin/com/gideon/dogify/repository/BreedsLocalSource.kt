@@ -1,6 +1,6 @@
 package com.gideon.dogify.repository
 
-import com.gideon.dogify.api.model.Breed
+import com.gideon.dogify.model.Breed
 import com.gideon.dogify.db.DogifyDatabase
 import com.gideon.dogify.util.DispatcherProvider
 import kotlinx.coroutines.flow.map

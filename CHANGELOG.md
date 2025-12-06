@@ -1,3 +1,7 @@
+07/12/2025
+- add MainViewModel
+- add appModule
+
 06/12/2025
 - setup dependencies for android
 
