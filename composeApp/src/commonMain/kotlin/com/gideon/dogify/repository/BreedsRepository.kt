@@ -1,6 +1,6 @@
 package com.gideon.dogify.repository
 
-import com.gideon.dogify.api.model.Breed
+import com.gideon.dogify.model.Breed
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.supervisorScope
