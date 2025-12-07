@@ -2,6 +2,7 @@
 - add MainViewModel
 - add appModule
 - implement ui on android
+- init ios app
 
 06/12/2025
 - setup dependencies for android
