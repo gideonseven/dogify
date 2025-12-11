@@ -13,10 +13,14 @@ struct ComposeView: UIViewControllerRepresentable {
 
 struct ContentView: View {
     var body: some View {
-        ComposeView()
-            .ignoresSafeArea()
+            Text("Hello World")
     }
 }
 
+
+
+#Preview {
+    ContentView()
+}
 
 

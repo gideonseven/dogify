@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F397D2092EE5BE7200B7B6BC /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F397D2082EE5BE7200B7B6BC /* libsqlite3.tbd */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		ADF9D8FD8C2600B02465C04E /* dogify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dogify.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F397D2082EE5BE7200B7B6BC /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -41,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F397D2092EE5BE7200B7B6BC /* libsqlite3.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,8 +66,17 @@
 			children = (
 				EE4A7E3B7673183B375AECF0 /* Configuration */,
 				1EE98C87146E83EBCA03240F /* iosApp */,
+				F397D2072EE5BE7200B7B6BC /* Frameworks */,
 				9912E9B803F88968CFC6FDEA /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		F397D2072EE5BE7200B7B6BC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F397D2082EE5BE7200B7B6BC /* libsqlite3.tbd */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,6 +152,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		B4BEA6EBA03EF8294452DCA1 /* Compile Kotlin Framework */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 12;
 			files = (
 			);
