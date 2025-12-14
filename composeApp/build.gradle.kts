@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.sqldelight)
+    alias(libs.plugins.ricklephas)
 }
 
 kotlin {
@@ -30,6 +31,7 @@ kotlin {
     sourceSets {
         all {
             languageSettings.optIn("kotlin.time.ExperimentalTime")
+            languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
         }
         androidMain.dependencies {
             implementation(compose.preview)
