@@ -1,4 +1,4 @@
-TEAM_ID=
+//TEAM_ID=
 
 PRODUCT_NAME=dogify
 PRODUCT_BUNDLE_IDENTIFIER=com.gideon.dogify.dogify$(TEAM_ID)
