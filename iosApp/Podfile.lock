@@ -1,3 +1,24 @@
-PODFILE CHECKSUM: c8b607a42d26f21541b1abb39b8ff3ab6670f169
+PODS:
+  - KMPNativeCoroutinesCore (0.13.3)
+  - KMPNativeCoroutinesRxSwift (0.13.3):
+    - KMPNativeCoroutinesCore (= 0.13.3)
+    - RxSwift (~> 6.0)
+  - RxSwift (6.9.0)
+
+DEPENDENCIES:
+  - KMPNativeCoroutinesRxSwift
+
+SPEC REPOS:
+  trunk:
+    - KMPNativeCoroutinesCore
+    - KMPNativeCoroutinesRxSwift
+    - RxSwift
+
+SPEC CHECKSUMS:
+  KMPNativeCoroutinesCore: 53c5b81bf7b74c556ce595931b3cdde87d6b2e45
+  KMPNativeCoroutinesRxSwift: 26fb16267267eb7590ace6ff1f0379a9c43e89a9
+  RxSwift: 31649ace6aceeb422e16ff71c60804f9c3281ed9
+
+PODFILE CHECKSUM: 383833d6fc7c1eccde84d276ee9d8f8e470ace77
 
 COCOAPODS: 1.16.2
