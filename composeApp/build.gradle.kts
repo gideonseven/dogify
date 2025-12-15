@@ -54,6 +54,7 @@ kotlin {
             implementation(libs.sqldelight.native.driver)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor3)
+            implementation(libs.ricklephas.core)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -79,6 +80,7 @@ kotlin {
             implementation(libs.sqldelight.coroutines)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor3)
+            implementation(libs.ricklephas.core)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

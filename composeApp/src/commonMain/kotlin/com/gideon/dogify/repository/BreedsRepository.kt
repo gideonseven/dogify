@@ -4,39 +4,31 @@ import com.gideon.dogify.model.Breed
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.supervisorScope
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
+class BreedsRepository: KoinComponent {
 
-class BreedsRepository internal constructor(
-    private val remoteSource: BreedsRemoteSource,
-    private val localSource: BreedsLocalSource
-) {
+    private val remoteSource: BreedsRemoteSource = get(null)
+    private val localSource: BreedsLocalSource = get(null)
+
     val breeds = localSource.breeds
-    internal suspend fun get() =
-        with(localSource.selectAll()) {
-            if (isNullOrEmpty()) {
-                return@with fetch()
-            } else {
-                this
-            }
-        }
 
-    //    suspend fun get() = fetch()
-    suspend fun fetch() = supervisorScope {
-        remoteSource.getBreeds().map {
-            async {
-                Breed(
-                    name = it, imageUrl =
-                        remoteSource.getBreedImage(it)
-                )
-            }
-        }.awaitAll().also { breeds ->
-            localSource.clear()
-            breeds.map {
-                async {
-                    localSource.insert(it)
-                }
-            }.awaitAll()
+    internal suspend fun get() = with(localSource.selectAll()) {
+        if (isNullOrEmpty()) {
+            return@with fetch()
+        } else {
+            this
         }
     }
 
-    suspend fun update(breed: Breed) = localSource.update(breed)
+    internal suspend fun fetch() = supervisorScope {
+        remoteSource.getBreeds().map {
+            async { Breed(name = it, imageUrl = remoteSource.getBreedImage(it)) }
+        }.awaitAll().also {
+            localSource.clear()
+            it.map { async { localSource.insert(it) } }.awaitAll()
+        }
+    }
+
+    internal suspend fun update(breed: Breed) = localSource.update(breed)
 }

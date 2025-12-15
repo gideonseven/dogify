@@ -1,13 +1,40 @@
 import SwiftUI
 import ComposeApp
 
-struct ContentView: UIViewControllerRepresentable {
+struct ContentView: View {
     
-    func makeUIViewController(context: Context) -> UIViewController {
-        MainViewControllerKt.MainViewController()
+    @ObservedObject private var viewModel: MainViewModel
+    
+    init() {
+        KoinModuleKt.doInitKoin()
+        viewModel = MainViewModel.init()
     }
-
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+    
+    var body: some View {
+        VStack{
+            Toggle("Filter favourites", isOn: $viewModel.shouldFilterFavourites)
+                .padding(16)
+            Button("Refresh breeds", action: { viewModel.fetchData()} )
+                .frame(alignment: .center)
+                .padding(.bottom, 16)
+            ZStack{
+                switch viewModel.state {
+                case MainViewModel.State.LOADING:
+                    ProgressView()
+                        .frame(alignment:.center)
+                case MainViewModel.State.NORMAL:
+                    BreedsGridUIView(breeds: viewModel.filteredBreeds, onFavouriteTapped: viewModel.onFavouriteTapped)
+                case MainViewModel.State.EMPTY:
+                    Text("Ooops looks like there are no breeds")
+                        .frame(alignment: .center)
+                        .font(.headline)
+                case MainViewModel.State.ERROR:
+                    Text("Ooops something went wrong...")
+                        .frame(alignment: .center)
+                        .font(.headline)
+                }
+            }
+        }
     }
 }
 
