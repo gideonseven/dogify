@@ -3,7 +3,7 @@ package com.gideon.dogify.di
 import com.gideon.dogify.api.BreedsApi
 import com.gideon.dogify.database.createDriver
 import com.gideon.dogify.db.DogifyDatabase
-import com.gideon.dogify.repository.BreedRemoteSource
+import com.gideon.dogify.repository.BreedsRemoteSource
 import com.gideon.dogify.repository.BreedsLocalSource
 import com.gideon.dogify.repository.BreedsRepository
 import com.gideon.dogify.usecase.FetchBreedsUseCase
@@ -25,7 +25,7 @@ private val apiModule = module {
 
 private val repositoryModule = module {
     single { BreedsRepository(get(), get()) }
-    factory { BreedRemoteSource(get(), get()) }
+    factory { BreedsRemoteSource(get(), get()) }
     factory { BreedsLocalSource(get(), get()) }
 }
 
@@ -41,3 +41,5 @@ fun initKoin(appDeclaration: KoinAppDeclaration = {}) = startKoin {
     appDeclaration()
     modules(sharedModules)
 }
+
+fun initKoin() = initKoin {  }

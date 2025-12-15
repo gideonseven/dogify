@@ -8,9 +8,6 @@ import Foundation
 import ComposeApp
 
 class MainViewModel: ObservableObject {
-    init(){
-        FetchBreedsUseCase.init().invoke {
-            breeds, error in
-        }
-    }
+    private let repository = BreedsRepository.init()
+    
 }

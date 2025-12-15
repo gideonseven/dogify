@@ -6,7 +6,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.supervisorScope
 
 class BreedsRepository internal constructor(
-    private val remoteSource: BreedRemoteSource,
+    private val remoteSource: BreedsRemoteSource,
     private val localSource: BreedsLocalSource
 ) {
     val breeds = localSource.breeds

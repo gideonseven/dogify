@@ -4,7 +4,7 @@ import com.gideon.dogify.api.BreedsApi
 import com.gideon.dogify.util.DispatcherProvider
 import kotlinx.coroutines.withContext
 
-internal class BreedRemoteSource(
+internal class BreedsRemoteSource(
     private val api: BreedsApi,
     private val dispatcherProvider: DispatcherProvider
 ) {
