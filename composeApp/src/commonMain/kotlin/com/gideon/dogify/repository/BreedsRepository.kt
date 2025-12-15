@@ -1,19 +1,24 @@
 package com.gideon.dogify.repository
 
 import com.gideon.dogify.model.Breed
+import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.supervisorScope
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.get
-class BreedsRepository: KoinComponent {
+import org.koin.core.component.get as koinGet
 
-    private val remoteSource: BreedsRemoteSource = get(null)
-    private val localSource: BreedsLocalSource = get(null)
+class BreedsRepository : KoinComponent {
+    private val remoteSource: BreedsRemoteSource = koinGet()
+    private val localSource: BreedsLocalSource = koinGet()
 
-    val breeds = localSource.breeds
+    @NativeCoroutines
+    val breeds: Flow<List<Breed>> = localSource.breeds
 
-    internal suspend fun get() = with(localSource.selectAll()) {
+
+    @NativeCoroutines
+    suspend fun get(): List<Breed> = with(localSource.selectAll()) {
         if (isNullOrEmpty()) {
             return@with fetch()
         } else {
@@ -21,7 +26,8 @@ class BreedsRepository: KoinComponent {
         }
     }
 
-    internal suspend fun fetch() = supervisorScope {
+    @NativeCoroutines
+    suspend fun fetch(): List<Breed> = supervisorScope {
         remoteSource.getBreeds().map {
             async { Breed(name = it, imageUrl = remoteSource.getBreedImage(it)) }
         }.awaitAll().also {
@@ -30,5 +36,8 @@ class BreedsRepository: KoinComponent {
         }
     }
 
-    internal suspend fun update(breed: Breed) = localSource.update(breed)
+    @NativeCoroutines
+    suspend fun update(breed: Breed): Unit {
+        localSource.update(breed)
+    }
 }

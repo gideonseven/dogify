@@ -30,8 +30,8 @@ kotlin {
 
     sourceSets {
         all {
-            languageSettings.optIn("kotlin.time.ExperimentalTime")
             languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
+            languageSettings.optIn("kotlin.time.ExperimentalTime")
         }
         androidMain.dependencies {
             implementation(compose.preview)

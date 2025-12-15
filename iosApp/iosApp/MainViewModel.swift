@@ -5,96 +5,76 @@
 //  Created by Gideon Tobing on 11/12/2025.
 //
 import Foundation
-import Combine
 import RxSwift
 import KMPNativeCoroutinesRxSwift
 import ComposeApp
 
-class MainViewModel: ObservableObject {
-    
-    private let repository = BreedsRepository.init()
-    private let getBreeds = GetBreedsUseCase.init()
-    private let fetchBreeds = FetchBreedsUseCase.init()
-    private let onToggleFavouriteState = ToggleFavouriteStateUseCase.init()
-    
-    @Published
-    private(set) var state = State.LOADING
-    
-    @Published
-    var shouldFilterFavourites = false
-    
-    @Published
-    private(set) var filteredBreeds: [Breed] = []
-    
-    @Published
-    private var breeds: [Breed] = []
-    
+final class MainViewModel: ObservableObject {
+
+    private let repository = BreedsRepository()
+    private let getBreeds = GetBreedsUseCase()
+    private let fetchBreeds = FetchBreedsUseCase()
+    private let onToggleFavouriteState = ToggleFavouriteStateUseCase()
+
+    @Published private(set) var state: State = .LOADING
+    @Published var shouldFilterFavourites: Bool = false {
+        didSet { applyFilter() }
+    }
+    @Published private(set) var filteredBreeds: [Breed] = []
+
+    private var breeds: [Breed] = [] {
+        didSet { applyFilter() }
+    }
+
     private let disposeBag = DisposeBag()
-    
+
     init() {
-        createObservable(for: repository.breedsNative).subscribe(onNext: { breeds in
-            DispatchQueue.main.async {
-                self.breeds = breeds
-            }
-        }).disposed(by: disposeBag)
-        
-        $breeds.combineLatest($shouldFilterFavourites, { breeds, shouldFilterFavourites -> [Breed] in
-            var result: [Breed] = []
-            if(shouldFilterFavourites){
-                result.append(contentsOf: breeds.filter{ $0.isFavourite })
-            } else {
-                result.append(contentsOf: breeds)
-            }
-            if(result.isEmpty){
-                self.state = State.EMPTY
-            } else {
-                self.state = State.NORMAL
-            }
-            return result
-        }).assign(to: &$filteredBreeds)
-        
+        KMPNativeCoroutinesRxSwift.createObservable(for: repository.breedsNative)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] breeds in
+                self?.breeds = breeds
+            })
+            .disposed(by: disposeBag)
+
         getData()
     }
-    
-    func getData(){
-        state = State.LOADING
-        
-        createSingle(for: getBreeds.invokeNative()).subscribe(onSuccess: { _ in
-            DispatchQueue.main.async {
-                self.state = State.NORMAL
-            }
-        }, onFailure: { error in
-            DispatchQueue.main.async {
-                self.state = State.ERROR
-            }
-        }).disposed(by: disposeBag)
+
+    private func applyFilter() {
+        let result = shouldFilterFavourites
+            ? breeds.filter { $0.isFavourite }
+            : breeds
+
+        filteredBreeds = result
+        state = result.isEmpty ? .EMPTY : .NORMAL
     }
-    
+
+    func getData() {
+        state = .LOADING
+        KMPNativeCoroutinesRxSwift.createSingle(for: getBreeds.invokeNative())
+            .observe(on: MainScheduler.instance)
+            .subscribe(
+                onSuccess: { [weak self] _ in self?.state = .NORMAL },
+                onFailure: { [weak self] _ in self?.state = .ERROR }
+            )
+            .disposed(by: disposeBag)
+    }
+
     func fetchData() {
-        state = State.LOADING
-        
-        createSingle(for: fetchBreeds.invokeNative()).subscribe(onSuccess: { _ in
-            DispatchQueue.main.async {
-                self.state = State.NORMAL
-            }
-        }, onFailure: { error in
-            DispatchQueue.main.async {
-                self.state = State.ERROR
-            }
-        }).disposed(by: disposeBag)
+        state = .LOADING
+        KMPNativeCoroutinesRxSwift.createSingle(for: fetchBreeds.invokeNative())
+            .observe(on: MainScheduler.instance)
+            .subscribe(
+                onSuccess: { [weak self] _ in self?.state = .NORMAL },
+                onFailure: { [weak self] _ in self?.state = .ERROR }
+            )
+            .disposed(by: disposeBag)
     }
-    
-    func onFavouriteTapped(breed: Breed){
-        createSingle(for: onToggleFavouriteState.invokeNative(breed: breed)).subscribe(onFailure: { error in
-            // We're going ignoring the failure, as it will be represented by the stream of breds
-        }).disposed(by: disposeBag)
+
+    func onFavouriteTapped(breed: Breed) {
+        KMPNativeCoroutinesRxSwift.createSingle(for: onToggleFavouriteState.invokeNative(breed: breed))
+            .subscribe(onFailure: { _ in })
+            .disposed(by: disposeBag)
     }
-    
-    enum State {
-        case NORMAL
-        case LOADING
-        case ERROR
-        case EMPTY
-    }
-    
+
+    enum State { case NORMAL, LOADING, ERROR, EMPTY }
 }
