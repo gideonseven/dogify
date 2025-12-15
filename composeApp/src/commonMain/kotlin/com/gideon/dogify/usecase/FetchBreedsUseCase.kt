@@ -2,11 +2,13 @@ package com.gideon.dogify.usecase
 
 import com.gideon.dogify.model.Breed
 import com.gideon.dogify.repository.BreedsRepository
+import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class FetchBreedsUseCase : KoinComponent {
     private val breedsRepository: BreedsRepository by inject()
 
-    suspend fun invoke(): List<Breed> = breedsRepository.fetch()
+    @NativeCoroutines
+    suspend operator fun invoke(): List<Breed> = breedsRepository.fetch()
 }
